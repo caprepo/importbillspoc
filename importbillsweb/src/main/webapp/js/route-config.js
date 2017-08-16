@@ -5,8 +5,11 @@
 					templateUrl : 'includes/fileupload.html',
 					controller : 'fileUploadCtrl'
 				}).when('/invoiceList', {
-					templateUrl : 'includes/invoiceList',
-					controller : 'InvoiceList'
+					templateUrl : 'includes/invoiceList.html',
+					controller : 'invoiceListCtrl'
+				}).when('/fileupload', {
+					templateUrl : 'includes/fileupload.html',
+					controller : 'fileUploadCtrl'
 				});
 
 				$routeProvider.otherwise({
