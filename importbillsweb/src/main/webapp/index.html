@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- define angular app -->
+<html ng-app="importbillsApp">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Banking</title>
+<!-- CSS FILES -->
+<link rel="stylesheet" type="text/css" href="css/collab-custom.css">
+<link rel="stylesheet" type="text/css" href="css/collab-box/demo.css" />
+<link rel="stylesheet" type="text/css" href="css/collab-box/style_common.css" />
+<link rel="stylesheet" type="text/css" href="css/collab-box/style4.css" />
+<link rel="stylesheet" type="text/css" href="css/dropzone/dropzonebasic.min.css" >
+<link rel="stylesheet" type="text/css" href="css/dropzone/dropzone.min.css" >
+<link rel="stylesheet" type="text/css" href="css/context.bootstrap.css">
+
+
+<!-- Bootstrap Minified CSS for making responsiveness-->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom CSS for additional stylings on bootstrap -->
+<link href="css/bootstrap-nav-wizard.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet">
+<!-- <link href="css/style.css" rel="stylesheet"> -->
+<link href="css/jquery-ui.min.css" rel="stylesheet">
+<link href="css/custom.css" rel="stylesheet">
+<link href="css/custom.css" rel="stylesheet" media="screen"
+	data-name="skins">
+<link href="css/angular-toggle-switch-bootstrap-3.css" rel="stylesheet">
+
+<!-- core CSS -->
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/ng-grid.css" rel="stylesheet">
+<link href="css/ngProgress.css" rel="stylesheet">
+
+<!-- rule CSS -->
+<link href="css/rule-custom.css" rel="stylesheet">
+
+<link rel="stylesheet" href="css/ngDialog.css">
+<link rel="stylesheet" href="css/ngDialog-theme-default.css">
+<link rel="stylesheet" href="css/annotator.min.css">
+<link rel="stylesheet" href="css/datetimepicker.css">
+<link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+<link rel="stylesheet" href="css/common.css">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+<!-- define angular controller -->
+<body>
+
+	<!-- Header -->
+	<div ng-include="'includes/header.html'"></div>
+	<!-- End of Header -->
+	<!-- Content Section -->
+	<div>
+		<!-- angular templating -->
+		<!-- this is where content will be injected -->
+		<div ng-view></div>
+	</div>
+	<!-- End of Content Section -->
+	<!-- Footer -->
+	<div ng-include="'includes/footer.html'"></div>
+	
+	<!-- End of Footer -->
+	<!-- Angular -->
+	<script src="jslib/jquery-1.11.0.min.js"></script>
+	<script src="jslib/moment.js"></script>
+	<script src="jslib/angular.js"></script>	
+	
+	<!-- ng-idle starts-->
+	<script src="jslib/angular-idle.min.js"></script>
+	<!-- ng-idle ends -->
+	<script src="jslib/underscore-min.js"></script>
+	<script src="jslib/ngStorage.min.js"></script>
+	<script src="jslib/geocoder-service.js"></script>
+
+	<script src="jslib/angular-route.js"></script>
+	<script src="jslib/angular-resource.js"></script>
+	<script src="jslib/angularui-mask.js"></script>
+	<script src="jslib/angular-input-modified.js"></script>
+	<script src="jslib/bootstrap.min.js"></script>
+	<script src="jslib/ngProgress.js"></script>
+	<script src="jslib/underscore-min.js"></script>
+	<script src="jslib/ng-grid-2.0.11.min.js"></script>
+	<script src="jslib/underscore-min.js"></script>
+	<script src="jslib/jquery-ui.js"></script>
+	<script src="jslib/toArrayFilter.js"></script>
+	<script src="jslib/upload.js"></script>
+	<script src="jslib/dropzone.min.js"></script>
+
+	<script src="js/route-config.js"></script>
+	<script src="js/underscore-module.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/logger.js"></script>
+	<script type="text/javascript" src="jslib/bootstrap-timepicker.js"></script>
+
+	<!-- Orginator Resources -->
+	<script src="jslib/tinymce.min.js"></script>
+	<script src="js/tinyMce.Config.js"></script>
+	<script src="js/services.js"></script>
+	<script src="js/plugin.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/directives.js"></script>
+</body>
+</html>

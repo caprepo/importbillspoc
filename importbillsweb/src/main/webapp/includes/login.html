@@ -1,0 +1,42 @@
+<!-- Login  place it center-->   
+
+<div class="container" style="background-image:url('images/login.jpg');width:100%;height:600px;background-repeat:no-repeat">
+	<div class="row">
+		<div class="col-lg-8">
+		</div>
+		<div class="col-md-4 col-md-offset-4">
+			<div id="panel-login" class="panel panel-primary" >
+				<div class="panel-heading login-panel">Login v1.0</div>
+					<div class="panel-body">
+						<div class="modal-body">
+						<form class="col-md-12 center-block">
+							<p class="nowrap error">{{User.error}}</p>
+							<div class="form-group">
+								<input class=" form-control input-lg" type="text" placeholder="username" ng-model="User.username" />
+							</div>
+							<div class="form-group">
+								<input class="form-control input-lg" type="password" placeholder="password" ng-model="User.password" />
+							</div>
+							<div class="form-group">
+								<input type="submit"class="btn btn-block btn-lg btn-primary login-button" ng-click="login()"value="Signin" >
+								<span class="pull-right"><a href="#/register" class="btn btn-link login-btn-link">Register Now</a></span>
+								<span><a href="#/forgotPassword" class="btn btn-link login-btn-link">Forgot Password</a></span>
+							</div>
+						</form>
+					</div>
+					</div>
+			</div>
+	</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

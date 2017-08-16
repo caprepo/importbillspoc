@@ -1,0 +1,51 @@
+<div class="container home-container">
+<div class="row tile-row-margin">
+	<div class="col-lg-12 col-md-6 col-sm-12 col-xs-12 tile-style">
+		<div class="row dashboard-title">Summary</div>
+		<div class="row summary-main-row">
+			<div class="col-xs-2 summary-main-column">
+				<div class="row summary-sub-row" ng-class="{ 'summary-active': isSet(1) }" ng-click="setTab(1)">
+					Accounts
+				</div>
+				<div class="row summary-sub-row" ng-class="{ 'summary-active': isSet(2) }" ng-click="setTab(2)">
+					Loans
+				</div>
+				<div class="row summary-sub-row" ng-class="{ 'summary-active': isSet(3) }" ng-click="setTab(3)">
+					Cards
+				</div>
+				<div class="row summary-sub-row" ng-class="{ 'summary-active': isSet(4) }" ng-click="setTab(4)">
+					Investments
+				</div>
+			</div>
+			<div class="col-xs-10">
+				<div ng-if="isSet(1)">
+					<account-summary-directive></account-summary-directive> 
+				</div>
+				<div ng-if="isSet(2)">
+					<loan-summary-directive></loan-summary-directive>
+				</div>
+				<div ng-if="isSet(3)">
+					<card-summary-directive></card-summary-directive>
+				</div>
+				<div ng-if="isSet(4)">
+					<investment-summary-directive></investment-summary-directive>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row tile-row-margin">
+	<div class="col-md-6 box transaction-box">
+		<div class="dashboard-title dashboard-margin">Transactions</div>
+        <div class="inner">
+        	<transaction-summary-directive></transaction-summary-directive>
+        </div>
+	</div>
+	<div class="col-md-5 box pull-right">
+			<div class="dashboard-title dashboard-margin">Payee List</div>
+	        <div class="inner">
+	        	<payee-list-directive></payee-list-directive>
+	        </div>
+	</div>
+</div>
+</div>
