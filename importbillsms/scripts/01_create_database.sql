@@ -2,7 +2,7 @@
 
 -- DROP DATABASE db_loan;
 
-CREATE DATABASE db_loan
+CREATE DATABASE db_importbills
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'

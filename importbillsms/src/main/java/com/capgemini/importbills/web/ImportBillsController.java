@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.capgemini.importbills.model.Invoice;
 import com.capgemini.importbills.service.ImportBillsService;
@@ -39,13 +38,12 @@ public class ImportBillsController {
     }
 	
 	@RequestMapping(value="/importbillservices/uploadfile",method = RequestMethod.POST)
-    public String uploadFile(@RequestParam("file") MultipartFile file,  RedirectAttributes redirectAttributes) {
+    public String uploadFile(@RequestParam("file") MultipartFile file) {
 	    System.out.println("In uploadFile method");
 	    String response = "";
 	    String UPLOADED_FOLDER = "/tmp";
 	    
 	    if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return "empty";
         }
 	    try {
@@ -56,9 +54,6 @@ public class ImportBillsController {
             Path path = Paths.get(UPLOADED_FOLDER + "/" + file.getOriginalFilename());
             System.out.println(path.getFileName());
             Files.write(path, bytes);
-
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
             response = "success";
 
         } catch (IOException e) {

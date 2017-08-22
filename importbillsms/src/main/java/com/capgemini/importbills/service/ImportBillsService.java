@@ -10,4 +10,13 @@ import com.capgemini.importbills.model.Invoice;
 public interface ImportBillsService {
 
 	public List<Invoice> getInvoices();
+	
+	/*
+	public void uploadInvoiceDetailToDB();
+	
+	public void uploadInvoiceToCloudStorage();
+	
+	public void callVisionAPI();
+	*/
+	
 }

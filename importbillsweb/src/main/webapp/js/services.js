@@ -10,10 +10,9 @@ importbillsServices.factory('InvoiceService', [
 		'$rootScope',
 		function($http, $location, $rootScope) {
 			var service = {};
-			importbillsSeviceUrl = "http://localhost:8090/importbillservices/invoices";
 			service.getInvoiceList = function() {
 				return $http
-						.get(importbillsSeviceUrl);
+						.get("http://localhost:8090/importbillservices/invoices");
 			};
 
 			return service;
