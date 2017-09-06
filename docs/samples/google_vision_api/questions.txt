@@ -1,0 +1,7 @@
+1.	Currently, the google vision API does not support TIF. Is there a plan to support this in the near future?
+2.	Scratches on image or tick marks are not handled well.
+3.	Circular text is not handled well.
+4.	Overlaid text is not handled well. But if we remove the overlays, the OCR works better.
+5.	Is there any difference in functionality between the HTTP calls, the API and the browser based upload and scan functionality?
+6.	Is there a way we can pass on parameters to the vision call api to indicate that an image contains certain things like scratches?
+7.	Can we indicate to google api that it should process only part of an image?

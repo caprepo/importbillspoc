@@ -36,7 +36,6 @@ public class ImportBillsController {
 
 	@RequestMapping(value="/importbillservices/invoices",method = RequestMethod.GET)
     public List<Invoice> getAllInvoices() {
-	    System.out.println("In get All Invoices method");
 	    List<Invoice> listInvoices=importBillsService.getInvoices();
 	    return listInvoices;
     }
@@ -55,21 +54,14 @@ public class ImportBillsController {
 
             // Get the file and save it somewhere
             byte[] bytes = file.getBytes();
-            System.out.println("Length = " + bytes.length);
             Path path = Paths.get(UPLOADED_FOLDER + "/" + file.getOriginalFilename());
-            System.out.println(path.getFileName());
             Files.write(path, bytes);
 
-			System.out.println("Before Upload " + file.getOriginalFilename());
 			File file2 = new File(UPLOADED_FOLDER + "/" + file.getOriginalFilename());
 			
 			StorageSample.uploadFile(file.getOriginalFilename(), "image/jpg", file2, "poc-importbills");
-			System.out.println("After Upload 1" + file.getOriginalFilename());
 			VisionOCRAnalysis ocr = new VisionOCRAnalysis();
-			System.out.println("Before ocr " + file.getOriginalFilename());
 			ocrResp = ocr.OCRAnalysis(file.getOriginalFilename());
-			System.out.println("After ocr" + file.getOriginalFilename());
-			System.out.println("response length = " + ocrResp.length());
             
             response = "success";
 
