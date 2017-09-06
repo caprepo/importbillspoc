@@ -12,7 +12,7 @@ importbillsServices.factory('InvoiceService', [
 			var service = {};
 			service.getInvoiceList = function() {
 				return $http
-						.get("http://localhost:8090/importbillservices/invoices");
+						.get("http://104.197.4.247:8080/importbillservices/invoices");
 			};
 
 			return service;

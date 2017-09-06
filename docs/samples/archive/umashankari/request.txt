@@ -1,0 +1,7 @@
+PFA the requested content.
+api request url with API key:  https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDzYqDGtLFzXX07z-a-fdYJmHukwRHntRI                                                          
+Header: [{"key":"Content-Type","value":"application/json","description":""}]
+Json Body : {"requests":  [{ "features":  [ {"type": "TEXT_DETECTION"}], "image": {"source": { "gcsImageUri": "gs://poc-importbills/Capture.PNG"}}}]}
+Json Response: Attached
+
+Note: Please enable Vision API before accessing it.

@@ -37,7 +37,7 @@ importbillsDirectives.directive('dropZone', function () {
             }
 
             element.dropzone({
-                url: "http://localhost:8090/importbillservices/uploadfile",
+                url: "http://104.197.4.247:8080/importbillservices/uploadfile",
                 maxFilesize: scope.dataMax,
                 paramName: "file",
                 acceptedFiles: scope.mimetypes,
