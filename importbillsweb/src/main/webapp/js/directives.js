@@ -7,7 +7,7 @@ $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile):|da
 }
 ]);
 
-importbillsDirectives.directive('dropZone', function () {
+importbillsDirectives.directive('dropZone', function ($rootScope) {
     return {
         scope: {
             action: "@",
@@ -36,8 +36,12 @@ importbillsDirectives.directive('dropZone', function () {
                 scope.message = Dropzone.prototype.defaultOptions.dictDefaultMessage;
             }
 
+            mainurl = "http://104.197.4.247:8080";
+            if ($rootScope.location.$$host == "localhost") {
+            	mainurl = "http://localhost:8080";
+            }	
             element.dropzone({
-                url: "http://104.197.4.247:8080/importbillservices/uploadfile",
+                url: mainurl + "/importbillservices/uploadfile",
                 maxFilesize: scope.dataMax,
                 paramName: "file",
                 acceptedFiles: scope.mimetypes,
