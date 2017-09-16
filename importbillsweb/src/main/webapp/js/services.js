@@ -10,11 +10,11 @@ importbillsServices.factory('InvoiceService', [
 		'$rootScope',
 		function($http, $location, $rootScope) {
 			var service = {};
-            mainurl = "http://104.197.4.247:8080";
-            if ($rootScope.location.$$host == "localhost") {
-            	mainurl = "http://localhost:8080";
-            }	
 			service.getInvoiceList = function() {
+	            var mainurl = "http://104.197.4.247:8090";
+	            if ($rootScope.location.$$host == "localhost") {
+	            	mainurl = "http://localhost:8090";
+	            }	
 				return $http
 						.get(mainurl + "/importbillservices/invoices");
 			};

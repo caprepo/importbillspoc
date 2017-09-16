@@ -10,3 +10,18 @@ WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
+
+CREATE TABLE image_upload
+(
+  image_stored_flag boolean DEFAULT false,
+  vision_api_resp character varying(250)[],
+  image_size bigint,
+  image_name character varying(255),
+  image_id serial NOT NULL,
+  image_google_storage_loc character varying
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE image_upload
+  OWNER TO postgres;

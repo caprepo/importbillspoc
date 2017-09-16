@@ -36,9 +36,9 @@ importbillsDirectives.directive('dropZone', function ($rootScope) {
                 scope.message = Dropzone.prototype.defaultOptions.dictDefaultMessage;
             }
 
-            mainurl = "http://104.197.4.247:8080";
+            var mainurl = "http://104.197.4.247:8090";
             if ($rootScope.location.$$host == "localhost") {
-            	mainurl = "http://localhost:8080";
+            	mainurl = "http://localhost:8090";
             }	
             element.dropzone({
                 url: mainurl + "/importbillservices/uploadfile",

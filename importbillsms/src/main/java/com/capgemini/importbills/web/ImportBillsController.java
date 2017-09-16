@@ -46,6 +46,8 @@ public class ImportBillsController {
 	    String response = "";
 	    String UPLOADED_FOLDER = "/tmp";
 	    String ocrResp = null;
+	    String googleCloudLocation = null;
+	    Boolean cloudFlag =false;
 	    
 	    if (file.isEmpty()) {
             return "empty";
@@ -58,11 +60,15 @@ public class ImportBillsController {
             Files.write(path, bytes);
 
 			File file2 = new File(UPLOADED_FOLDER + "/" + file.getOriginalFilename());
-			
 			StorageSample.uploadFile(file.getOriginalFilename(), "image/jpg", file2, "poc-importbills");
 			VisionOCRAnalysis ocr = new VisionOCRAnalysis();
 			ocrResp = ocr.OCRAnalysis(file.getOriginalFilename());
+			googleCloudLocation = "gs://poc-importbills/"+file.getOriginalFilename();
+			if(googleCloudLocation != null){
+				cloudFlag = true;
             
+			}
+             importBillsService.save(file.getOriginalFilename(),file.getSize(),googleCloudLocation,cloudFlag);
             response = "success";
 
         } catch (IOException e) {

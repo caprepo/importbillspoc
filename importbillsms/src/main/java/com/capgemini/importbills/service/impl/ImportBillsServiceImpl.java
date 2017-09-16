@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,13 @@ public class ImportBillsServiceImpl implements ImportBillsService{
 	public List<Invoice> getInvoices() {
 		logger.info("In Service : Finding Invoices");
 		return importBillsDao.findInvoices();
+	}
+
+	@Override
+	public void save(String originalFilename, long size,String googleCloudLocation,Boolean cloudFlag) {
+		logger.info("In Service:Saving Image");
+		System.out.println("SERVICE METHOD NAMES"+originalFilename +size +googleCloudLocation +cloudFlag);
+		 importBillsDao.save(originalFilename,size,googleCloudLocation,cloudFlag);
 	}
 
 }
