@@ -27,7 +27,7 @@ spring:
   jpa.show-sql : true
   jpa.generate-ddl : true
   datasource:
-   url : jdbc:postgresql://104.197.4.247:5432/db_importbills
+   url : jdbc:postgresql://localhost:5432/db_importbills
    username : postgres
    password : admin
    driverClassName : org.postgresql.Driver
