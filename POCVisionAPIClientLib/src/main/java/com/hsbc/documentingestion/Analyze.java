@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.websocket.server.PathParam;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,8 +54,7 @@ public class Analyze {
 
 	
 	@GetMapping("/visionapi")
-	  public void useVisionApi(@RequestParam("command") String command) throws Exception{
-String	path ="D:/Users/ukannan/Desktop/DocSample.png";
+	  public void useVisionApi(@PathParam("command") String command,@PathParam("path") String path) throws Exception{
 	  /**
 	   * Helper that handles the input passed to the program.
 	   *
