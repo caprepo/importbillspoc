@@ -7,6 +7,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import com.google.cloud.vision.v1.AnnotateImageRequest;
+import com.google.cloud.vision.v1.AnnotateImageResponse;
+import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.Feature;
+import com.google.cloud.vision.v1.Image;
+import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.cloud.vision.v1.ImageSource;
+import com.google.cloud.vision.v1.Feature.Type;
 
 public class VisionOCRAnalysis {
 	private static final String TARGET_URL = "https://vision.googleapis.com/v1/images:annotate?";
@@ -48,4 +60,36 @@ public class VisionOCRAnalysis {
 		System.out.println("Response length = " + resp.length());
 		return resp;
 	}
+	public static void detectTextGcs(String gcsPath, PrintStream out) throws Exception, IOException {
+		List<AnnotateImageRequest> requests = new ArrayList<AnnotateImageRequest>();
+
+		ImageSource imgSource = ImageSource.newBuilder().setGcsImageUri(gcsPath).build();
+		Image img = Image.newBuilder().setSource(imgSource).build();
+		Feature feat = Feature.newBuilder().setType(Type.TEXT_DETECTION).build();
+		AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
+		requests.add(request);
+
+		try {
+			ImageAnnotatorClient client = ImageAnnotatorClient.create();
+			BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
+			List<AnnotateImageResponse> responses = response.getResponsesList();
+
+			for (AnnotateImageResponse res : responses) {
+				if (res.hasError()) {
+					out.printf("Error: %s\n", res.getError().getMessage());
+					return;
+				}
+
+				// For full list of available annotations, see
+				// http://g.co/cloud/vision/docs
+				for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
+					out.printf("Text: %s\n", annotation.getDescription());
+					out.printf("Position : %s\n", annotation.getBoundingPoly());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+ 
 }
