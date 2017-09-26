@@ -61,3 +61,46 @@ importbillsControllers.controller('invoiceListCtrl', [
 				});
 			}
 		} ]);
+		
+		importbillsControllers.controller('imageListCtrl', [
+	'$scope','ImageService',
+	function($scope, ImageService) {
+		
+		$scope.imageListGridOptions = {
+			data : 'imageListSummary',
+			columnDefs : [ {
+				field : 'imageId',
+				displayName : 'Image ID'
+			}, {
+				field : 'imageName',
+				displayName : 'Image Name'
+			}, {
+				field : 'ImageGoogleStorageLoc',
+				displayName : 'image Google Storage Location',
+			    cellTemplate: '<a ng-href>{{row.entity.ImageGoogleStorageLoc}}</a>'
+			}],
+			enableRowSelection : false,
+			showSelectionCheckbox : false,
+			multiSelect : false,
+			enableHighlighting : true
+		};
+		getImageList();
+
+		function getImageList() {
+			ImageService.getImageList().success(
+					function(data, status, headers, config) {
+						if (data != null) {
+							$scope.imageListSummary = data;
+
+						}
+					}).error(function() {
+						$scope.imageListSummary = [ {
+							
+						}];
+						
+						
+			});
+		}
+	} ]);
+
+
