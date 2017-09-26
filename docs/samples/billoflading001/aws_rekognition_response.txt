@@ -1,0 +1,37 @@
+{
+    "Labels": [
+        {
+            "Confidence": 94.0306167602539,
+            "Name": "Receipt"
+        },
+        {
+            "Confidence": 94.0306167602539,
+            "Name": "Text"
+        },
+        {
+            "Confidence": 66.5785903930664,
+            "Name": "Diagram"
+        },
+        {
+            "Confidence": 66.5785903930664,
+            "Name": "Plan"
+        },
+        {
+            "Confidence": 52.71758270263672,
+            "Name": "License"
+        },
+        {
+            "Confidence": 50.77701950073242,
+            "Name": "Flyer"
+        },
+        {
+            "Confidence": 50.77701950073242,
+            "Name": "Menu"
+        },
+        {
+            "Confidence": 50.575984954833984,
+            "Name": "Letter"
+        }
+    ],
+    "OrientationCorrection": "ROTATE_0"
+}

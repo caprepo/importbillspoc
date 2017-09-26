@@ -1,0 +1,25 @@
+{
+    "Labels": [
+        {
+            "Confidence": 96.7704086303711,
+            "Name": "Paper"
+        },
+        {
+            "Confidence": 96.7704086303711,
+            "Name": "Text"
+        },
+        {
+            "Confidence": 96.7704086303711,
+            "Name": "Ticket"
+        },
+        {
+            "Confidence": 63.198768615722656,
+            "Name": "Label"
+        },
+        {
+            "Confidence": 51.29468536376953,
+            "Name": "License"
+        }
+    ],
+    "OrientationCorrection": "ROTATE_0"
+}
