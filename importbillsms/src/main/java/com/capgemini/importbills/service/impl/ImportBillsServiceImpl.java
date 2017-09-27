@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.importbills.dao.ImportBillsDao;
 import com.capgemini.importbills.model.Invoice;
+import com.capgemini.importbills.model.Image_Upload;
 import com.capgemini.importbills.service.ImportBillsService;
 
 @Component
@@ -36,5 +37,12 @@ public class ImportBillsServiceImpl implements ImportBillsService{
 		System.out.println("SERVICE METHOD NAMES"+originalFilename +size +googleCloudLocation +cloudFlag);
 		 importBillsDao.save(originalFilename,size,googleCloudLocation,cloudFlag);
 	}
+
+@Override
+	public List<Image_Upload> getAllImageList() {
+		logger.info("IN SERVICE: LIST OF IMAGES");
+		return importBillsDao.getAllImages();
+	}
+
 
 }

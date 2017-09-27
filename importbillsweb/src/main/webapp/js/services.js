@@ -21,3 +21,18 @@ importbillsServices.factory('InvoiceService', [
 
 			return service;
 		} ]);
+	importbillsServices.factory('ImageService', [
+	'$http',
+	'$location',
+	'$rootScope',
+	function($http, $location, $rootScope) {
+		var service = {};
+		service.getImageList = function() {
+			console.log("CAMEEEEE")
+			return $http
+					.get("http://localhost:8090/importbillservices/imageList");
+		};
+
+		return service;
+	} ]);
+

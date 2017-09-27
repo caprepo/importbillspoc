@@ -10,6 +10,9 @@
 				}).when('/fileupload', {
 					templateUrl : 'includes/fileupload.html',
 					controller : 'fileUploadCtrl'
+				}).when('/imageList', {
+					templateUrl : 'includes/invoiceList.html',
+					controller : 'imageListCtrl'
 				});
 
 				$routeProvider.otherwise({

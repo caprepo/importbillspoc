@@ -27,7 +27,7 @@ public class Image_Upload implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "image_id")
-	public int Image_Id;
+	public int ImageId;
 	
 	@Column(name = "image_name")
    public String ImageName;
@@ -46,12 +46,12 @@ public class Image_Upload implements Serializable {
 
 	
 
-	public int getImage_Id() {
-		return Image_Id;
+	public int getImageId() {
+		return ImageId;
 	}
 
-	public void setImage_Id(int image_Id) {
-		Image_Id = image_Id;
+	public void setImageId(int imageId) {
+		ImageId = imageId;
 	}
 
 	public String getImageName() {
