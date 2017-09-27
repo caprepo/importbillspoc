@@ -28,9 +28,12 @@ importbillsServices.factory('InvoiceService', [
 	function($http, $location, $rootScope) {
 		var service = {};
 		service.getImageList = function() {
-			console.log("CAMEEEEE")
+            var mainurl = "http://104.197.4.247:8090";
+            if ($rootScope.location.$$host == "localhost") {
+            	mainurl = "http://localhost:8090";
+            }	
 			return $http
-					.get("http://localhost:8090/importbillservices/imageList");
+					.get(mainurl + "/importbillservices/imageList");
 		};
 
 		return service;
