@@ -59,6 +59,7 @@ public class ImportBillsController {
 	    String UPLOADED_FOLDER = "/tmp";
 	    String ocrResp = null;
 	    String googleCloudLocation = null;
+	    String googleCloudpubLocation = null;
 	    Boolean cloudFlag =false;
 	    
 	    if (file.isEmpty()) {
@@ -75,7 +76,7 @@ public class ImportBillsController {
 			StorageSample.uploadFile(file.getOriginalFilename(), "image/jpg", file2, "poc-importbills");
 			VisionOCRAnalysis ocr = new VisionOCRAnalysis();
 			ocrResp = ocr.OCRAnalysis(file.getOriginalFilename());
-			//googleCloudLocation = "gs://poc-importbills/"+file.getOriginalFilename();
+			googleCloudpubLocation = "gs://poc-importbills/"+file.getOriginalFilename();
 			googleCloudLocation= "http://poc-importbills.storage.googleapis.com/"+file.getOriginalFilename();
 			if(googleCloudLocation != null){
 				cloudFlag = true;
@@ -88,7 +89,7 @@ public class ImportBillsController {
 try {
 	publisher = Publisher.defaultBuilder(topicName).build();
 	System.out.println("DEfaulL"+publisher);
-		        ByteString data = ByteString.copyFromUtf8(googleCloudLocation);
+		        ByteString data = ByteString.copyFromUtf8(googleCloudpubLocation);
 		        System.out.println("DATAAAAAAa"+data);
 		        PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
 		        messageIdFuture = publisher.publish(pubsubMessage);
