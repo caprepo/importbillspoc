@@ -1041,7 +1041,7 @@ public class Analyze {
 	              }
 	              // Output Example using Paragraph:
 	              out.println("Paragraph: \n" + paraText);
-	              out.println("Bounds: \n" + para.getBoundingBox() + "\n");
+	              //out.println("Bounds: \n" + para.getBoundingBox() + "\n");
 	              blockText = blockText + paraText;
 	            }
 	            pageText = pageText + blockText;
