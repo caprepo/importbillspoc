@@ -1,18 +1,13 @@
-# digitalbanking Loan Microservice
-Digital Banking Training
+# Import Bills Service
 
-mvn clean install
-Run application.java from com.capg.loanservices package
+From local directory
+D:\workspace\googlecloud\importbillspoc\importbillsms\target
 
-This is a spring boot application
-It will run embedded tomcat container.
+java -DGOOGLE_APPLICATION_CREDENTIALS=D:\workspace\googlecloud\importbillspoc\config\googlecloud\CG-HSBC-PoC-484cfa11e0db.json -Dspring.profiles.active=default -jar ImportBillsService-1.0.jar
+Googlecloud start
+From directory /var/www/code/importbillsms/target
 
-To run
-java –jar loanservices-1.0.jar
+java -Dspring.profiles.active=googlecloud -jar ImportBillsService-1.0.jar
+From directoy /var/www/code/importbillspoc/POCVisionAPIClientLib/target
 
-To test, start postman app in chrome
-http://localhost:8080/loanservices/1/loans
-
-You have to create db_loan database in postgresql.
-Use sql scripts to create the tables and insert the data.
-
+java -jar cloudVisionApi-0.0.1-SNAPSHOT.jar

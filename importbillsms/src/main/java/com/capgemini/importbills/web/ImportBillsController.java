@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,74 +41,87 @@ public class ImportBillsController {
 	private ImportBillsService importBillsService;
 	private static Logger log = Logger.getLogger(ImportBillsController.class);
 
-	@RequestMapping(value="/importbillservices/invoices",method = RequestMethod.GET)
-    public List<Invoice> getAllInvoices() {
-	    List<Invoice> listInvoices=importBillsService.getInvoices();
-	    return listInvoices;
-    }
-	
+	@RequestMapping(value = "/importbillservices/invoices", method = RequestMethod.GET)
+	public List<Invoice> getAllInvoices() {
+		List<Invoice> listInvoices = importBillsService.getInvoices();
+		return listInvoices;
+	}
+
 	@RequestMapping(value = "/importbillservices/imageList", method = RequestMethod.GET)
 	public List<Image_Upload> getAllImageList() {
 		List<Image_Upload> listOfImages = importBillsService.getAllImageList();
 		return listOfImages;
 	}
-	
-	@RequestMapping(value="/importbillservices/uploadfile",method = RequestMethod.POST)
-    public String uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
-	    System.out.println("In uploadFile method");
-	    String response = "";
-	    String UPLOADED_FOLDER = "/tmp";
-	    String ocrResp = null;
-	    String googleCloudLocation = null;
-	    String googleCloudpubLocation = null;
-	    Boolean cloudFlag =false;
-	    
-	    if (file.isEmpty()) {
-            return "empty";
-        }
-	    try {
 
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + "/" + file.getOriginalFilename());
-            Files.write(path, bytes);
+	@RequestMapping(value = "/importbillservices/uploadfile", method = RequestMethod.POST)
+	public String uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
+		System.out.println("In uploadFile method");
+		String googleCloudLocation = null;
+		String googleCloudpubLocation = null;
+		Boolean cloudFlag = true;
+
+		saveToBucket(file);
+		
+		googleCloudpubLocation = "gs://poc-importbills/" + file.getOriginalFilename();
+		googleCloudLocation = "http://poc-importbills.storage.googleapis.com/" + file.getOriginalFilename();
+		
+		//Save to the database
+		importBillsService.save(file.getOriginalFilename(), file.getSize(), googleCloudLocation, cloudFlag);
+		sendToPubSub(googleCloudpubLocation);
+			
+		return "success";
+	}
+	
+	public void saveToBucket(MultipartFile file) {
+		String UPLOADED_FOLDER = "/tmp";
+
+		if (file.isEmpty()) {
+			return;
+		}
+		try {
+
+			// Get the file and save it somewhere
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(UPLOADED_FOLDER + "/" + file.getOriginalFilename());
+			Files.write(path, bytes);
 
 			File file2 = new File(UPLOADED_FOLDER + "/" + file.getOriginalFilename());
 			StorageSample.uploadFile(file.getOriginalFilename(), "image/jpg", file2, "poc-importbills");
-			VisionOCRAnalysis ocr = new VisionOCRAnalysis();
-			ocrResp = ocr.OCRAnalysis(file.getOriginalFilename());
-			googleCloudpubLocation = "gs://poc-importbills/"+file.getOriginalFilename();
-			googleCloudLocation= "http://poc-importbills.storage.googleapis.com/"+file.getOriginalFilename();
-			if(googleCloudLocation != null){
-				cloudFlag = true;
-            
-			}
-             importBillsService.save(file.getOriginalFilename(),file.getSize(),googleCloudLocation,cloudFlag);
-			 TopicName topicName = TopicName.create("CG-HSBC-PoC", "importbills");
-			Publisher publisher = null;
-			 ApiFuture<String> messageIdFuture = null;
-try {
-	publisher = Publisher.defaultBuilder(topicName).build();
-	System.out.println("DEfaulL"+publisher);
-		        ByteString data = ByteString.copyFromUtf8(googleCloudpubLocation);
-		        System.out.println("DATAAAAAAa"+data);
-		        PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
-		        messageIdFuture = publisher.publish(pubsubMessage);
-		      System.out.println("PUBLISHHH"+messageIdFuture);
-} finally{
-}
-String messageId = messageIdFuture.get();
-		        System.out.println("published with message ID: " + messageId);
-		      if (publisher != null) {
-		        publisher.shutdown();
-		      }           
-		   response = "success";
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (GeneralSecurityException e) {
-			e.printStackTrace();
+			
+		} catch (Exception e) {
+			
 		}
-	    return response;
-    }
+	}
+	
+	public void sendToPubSub(String googleCloudpubLocation) {
+		TopicName topicName = TopicName.create("CG-HSBC-PoC", "importbills");
+		Publisher publisher = null;
+		ApiFuture<String> messageIdFuture = null;
+		try {
+			publisher = Publisher.defaultBuilder(topicName).build();
+			System.out.println("Publisher: " + publisher);
+			ByteString data = ByteString.copyFromUtf8(googleCloudpubLocation);
+			System.out.println("Data:" + data);
+			PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
+			messageIdFuture = publisher.publish(pubsubMessage);
+			System.out.println("PUBLISH" + messageIdFuture);
+			String messageId = messageIdFuture.get();
+			System.out.println("published with message ID: " + messageId);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} finally {
+			if (publisher != null) {
+				try {
+					publisher.shutdown();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
