@@ -44,5 +44,11 @@ public class ImportBillsServiceImpl implements ImportBillsService{
 		return importBillsDao.getAllImages();
 	}
 
+@Override
+public int getId() {
+	// TODO Auto-generated method stub
+	return importBillsDao.getId();
+}
+
 
 }

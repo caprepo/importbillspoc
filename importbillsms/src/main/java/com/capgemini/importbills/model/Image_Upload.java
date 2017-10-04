@@ -50,6 +50,8 @@ public class Image_Upload implements Serializable {
 		return ImageId;
 	}
 
+	
+
 	public void setImageId(int imageId) {
 		ImageId = imageId;
 	}

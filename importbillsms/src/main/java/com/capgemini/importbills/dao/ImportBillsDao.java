@@ -21,10 +21,14 @@ public interface ImportBillsDao<I extends Image_Upload> extends JpaRepository<In
 	public List<Invoice> findInvoices();
 	@Modifying
    @Query(value = "insert into Image_Upload (image_name,image_size,image_google_storage_loc,image_stored_flag) VALUES (:originalFilename,:size,:googleCloudLocation,:cloudFlag)", nativeQuery = true)
-   @Transactional
+	@Transactional
 	void save(@Param("originalFilename") String originalFilename,@Param("size") long size,@Param("googleCloudLocation") String googleCloudLocation,@Param("cloudFlag") Boolean cloudFlag);
 	
 	@Query("SELECT I FROM Image_Upload I")
 	public List<Image_Upload> getAllImages();
+	
+	@Query("SELECT Im.ImageId FROM Image_Upload Im where Im.ImageId = (select max(ImageId) from Image_Upload)")
+	public int getId();
+	
    
 }

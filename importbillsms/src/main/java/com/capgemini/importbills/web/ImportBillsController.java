@@ -6,10 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.capgemini.importbills.dao.ImportBillsDao;
 import com.capgemini.importbills.helper.StorageSample;
 import com.capgemini.importbills.helper.VisionOCRAnalysis;
 import com.capgemini.importbills.model.Invoice;
 import com.capgemini.importbills.model.Image_Upload;
 import com.capgemini.importbills.service.ImportBillsService;
 import com.google.api.core.ApiFuture;
+import com.google.api.gax.core.ExecutorProvider;
+import com.google.api.gax.core.InstantiatingExecutorProvider;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
@@ -64,22 +69,19 @@ public class ImportBillsController {
 		
 		googleCloudpubLocation = "gs://poc-importbills/" + file.getOriginalFilename();
 		googleCloudLocation = "http://poc-importbills.storage.googleapis.com/" + file.getOriginalFilename();
-		
 		//Save to the database
-		importBillsService.save(file.getOriginalFilename(), file.getSize(), googleCloudLocation, cloudFlag);
-		sendToPubSub(googleCloudpubLocation);
-			
+	 importBillsService.save(file.getOriginalFilename(), file.getSize(), googleCloudLocation, cloudFlag);
+		int id = importBillsService.getId();
+	      sendToPubSub(googleCloudpubLocation,id);
 		return "success";
 	}
 	
 	public void saveToBucket(MultipartFile file) {
 		String UPLOADED_FOLDER = "/tmp";
-
 		if (file.isEmpty()) {
 			return;
 		}
 		try {
-
 			// Get the file and save it somewhere
 			byte[] bytes = file.getBytes();
 			Path path = Paths.get(UPLOADED_FOLDER + "/" + file.getOriginalFilename());
@@ -93,18 +95,22 @@ public class ImportBillsController {
 		}
 	}
 	
-	public void sendToPubSub(String googleCloudpubLocation) {
+	public void sendToPubSub(String googleCloudpubLocation,int id) {
 		TopicName topicName = TopicName.create("CG-HSBC-PoC", "importbills");
 		Publisher publisher = null;
+	String idvalue=	Integer.toString(id);
 		ApiFuture<String> messageIdFuture = null;
+	ApiFuture<String> pubsubmessageIdFuture = null;
 		try {
-			publisher = Publisher.defaultBuilder(topicName).build();
-			System.out.println("Publisher: " + publisher);
+			ExecutorProvider executorProvider = InstantiatingExecutorProvider.newBuilder().setExecutorThreadCount(1)
+					.build();
+			publisher = Publisher.defaultBuilder(topicName).setExecutorProvider(executorProvider).build();
 			ByteString data = ByteString.copyFromUtf8(googleCloudpubLocation);
-			System.out.println("Data:" + data);
+			ByteString pubsubmessageid =	ByteString.copyFromUtf8(idvalue);
 			PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
+			PubsubMessage sendidpub = PubsubMessage.newBuilder().setData(pubsubmessageid).build();
+			pubsubmessageIdFuture = publisher.publish(sendidpub);
 			messageIdFuture = publisher.publish(pubsubMessage);
-			System.out.println("PUBLISH" + messageIdFuture);
 			String messageId = messageIdFuture.get();
 			System.out.println("published with message ID: " + messageId);
 		} catch (IOException e) {
