@@ -77,7 +77,13 @@ importbillsControllers.controller('invoiceListCtrl', [
 			}, {
 				field : 'ImageGoogleStorageLoc',
 				displayName : 'image Google Storage Location',
-			    cellTemplate: '<a ng-href>{{row.entity.ImageGoogleStorageLoc}}</a>'
+				cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="{{row.getProperty(col.field)}}">{{row.getProperty(col.field)}}</a></div>'
+
+			    //cellTemplate: '<a ng-href>{{row.entity.ImageGoogleStorageLoc}}</a>'
+			},
+			{
+				field : 'VisionApiResp',
+			    displayName : 'API Response'
 			}],
 			enableRowSelection : false,
 			showSelectionCheckbox : false,
