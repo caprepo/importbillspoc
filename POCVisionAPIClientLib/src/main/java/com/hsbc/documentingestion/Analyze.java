@@ -1035,14 +1035,15 @@ public class Analyze {
 	 *            The path to the remote file to detect document text on.
 	 * @param out
 	 *            A {@link PrintStream} to write the results to.
+	 * @return 
 	 * @throws Exception
 	 *             on errors while closing the client.
 	 * @throws IOException
 	 *             on Input/Output errors.
 	 */
-	public static void detectDocumentTextGcs(String gcsPath, PrintStream out) throws Exception, IOException {
+	public static String detectDocumentTextGcs(String gcsPath, PrintStream out) throws Exception, IOException {
 		List<AnnotateImageRequest> requests = new ArrayList<>();
-
+		TextAnnotation annotation = null;
 		ImageSource imgSource = ImageSource.newBuilder().setGcsImageUri(gcsPath).build();
 		Image img = Image.newBuilder().setSource(imgSource).build();
 		Feature feat = Feature.newBuilder().setType(Type.DOCUMENT_TEXT_DETECTION).build();
@@ -1057,11 +1058,11 @@ public class Analyze {
 			for (AnnotateImageResponse res : responses) {
 				if (res.hasError()) {
 					out.printf("Error: %s\n", res.getError().getMessage());
-					return;
+					return res.getError().getMessage();
 				}
 				// For full list of available annotations, see
 				// http://g.co/cloud/vision/docs
-				TextAnnotation annotation = res.getFullTextAnnotation();
+				 annotation = res.getFullTextAnnotation();
 				for (Page page : annotation.getPagesList()) {
 					String pageText = "";
 					for (Block block : page.getBlocksList()) {
@@ -1076,7 +1077,7 @@ public class Analyze {
 								paraText = paraText + wordText;
 							}
 							// Output Example using Paragraph:
-							out.println("Paragraph: \n" + paraText);
+							//out.println("Paragraph: \n" + paraText);
 							// out.println("Bounds: \n" + para.getBoundingBox()
 							// + "\n");
 							blockText = blockText + paraText;
@@ -1087,5 +1088,6 @@ public class Analyze {
 				out.println(annotation.getText());
 			}
 		}
+		return annotation.getText();
 	}
 }
